@@ -218,5 +218,7 @@ pip-log.txt
 .DS_Store
 
 #Experiments
-+Test/
+Test/
 
+# py build
+Scrap_Moodle.spec
