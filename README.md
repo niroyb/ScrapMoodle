@@ -5,16 +5,12 @@ This program recursively downloads all the files from the course pages on Moodle
 
 External dependencies are [lxml]
 
-    **Download everything**
+**Download everything**
 
-    ```
     $ Scrap_Moodle.py
-    ```
+    
+**Download specific courses**
 
-    **Download specific courses**
+Add the courses ID as space separated arguments:
 
-    Add the sigles of the courses as arguments:
-
-    ```
     $ Scrap_Moodle.py LOG4900 inf8405
-    ```
