@@ -19,7 +19,7 @@ from os.path import basename
 import re
 import scraptools
 from statedConnection import getSateConnection
-from sys import stderr
+import sys
 from urllib2 import url2pathname
 
 class MoodleConnect:
@@ -147,7 +147,15 @@ class MoodleCoursePage():
             try:
                 r.saveTo(self.sigle)
             except Exception as e:
-                print >> stderr, e, self.pageUrl
+                print >> sys.stderr, e, self.pageUrl
+
+def isInArgv(courseDescription):
+    '''Returns true if a course sigle in args matches description'''
+    courseDescription = courseDescription.lower()
+    for arg in sys.argv[1:]:
+        if arg.lower() in courseDescription:
+            return True
+    return False
 
 class MoodleMyPage():
     def __init__(self, moodleConnection):
@@ -165,7 +173,9 @@ class MoodleMyPage():
         for e in elems:
             courseDescription = e.text
             match = re.match(sigleRe, courseDescription)
-            if match: #We have a course box with a valid sigle
+            #Automatic course discovery or Check sigles in args (manual)
+            if len(sys.argv) <=1 and match or \
+               isInArgv(courseDescription):
                 sigle = match.group(1)
                 pageUrl = e.get('href')
                 self.coursePages.append(MoodleCoursePage(moodleConnection, pageUrl, sigle))
@@ -183,7 +193,7 @@ def test_mypage(mypage):
     #print '\n'.join([c.sigle  for c in myPage.coursePages])
 
 if __name__ == '__main__':
-    
+    print sys.argv
     loginUrl = 'https://moodle.polymtl.ca/login/index.php'
     print 'Credentials', loginUrl
     username = raw_input('username: ')
