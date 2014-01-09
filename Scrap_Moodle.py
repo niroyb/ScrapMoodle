@@ -13,13 +13,14 @@ __author__ = "Nicolas Roy"
 __date__ = "2013-03-23"
 __version__ = "1.0"
 
-import scraptools
-from lxml.cssselect import CSSSelector
-from statedConnection import getSateConnection
-import re
-from os.path import basename
-from sys import stderr
 import getpass
+from lxml.cssselect import CSSSelector
+from os.path import basename
+import re
+import scraptools
+from statedConnection import getSateConnection
+from sys import stderr
+from urllib2 import url2pathname
 
 class MoodleConnect:
     '''Moodle connection object with credentials'''
@@ -73,7 +74,8 @@ class Resource():
             resourceUrl = Resource.getResourceUrl(data)
             fName = basename(resourceUrl)  # Get resource name
             data = connection.getUrlData(resourceUrl)  # Get resource
-        
+
+        fName = url2pathname(fName)
         print 'Saving ', fName
         scraptools.saveResource(data, fName, path)  # Save file
 
